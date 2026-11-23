@@ -1,0 +1,25 @@
+# registry/home-lab.yaml
+assets:
+  - key: flask-app
+    name: Flask app
+    type: web_app
+    zone: LAN
+    criticality: 3
+
+risks:
+  - key: r-xss-admin
+    asset: flask-app
+    title: Stored XSS leads to forged admin creation
+    stride: T
+    likelihood: 3
+    impact: 3
+
+controls:
+  - key: iso-a-8-28
+    framework: ISO27001
+    title: Secure coding
+
+implementations:
+  - control: iso-a-8-28
+    asset: flask-app
+    status: gap
