@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Risk Register — Findings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Risk Register <span class="muted">· SAST findings</span></div>
+    <nav class="tabs" role="tablist">
+      <a href="#findings" class="tab" data-view="findings" role="tab">Findings</a>
+      <a href="#compare" class="tab" data-view="compare" role="tab">Comparatif Semgrep ↔ Bandit</a>
+    </nav>
+    <label class="repo-picker">
+      <span class="muted">Dépôt</span>
+      <select id="repo"></select>
+    </label>
+  </header>
+
+  <main>
+    <p id="error" class="error" hidden></p>
+
+    <!-- ======================= FINDINGS ======================= -->
+    <section id="view-findings" class="view" hidden>
+      <div class="toolbar">
+        <div class="segmented" id="tool-filter" role="group" aria-label="Outil">
+          <button data-tool="" class="active">Tous</button>
+          <button data-tool="semgrep"><span class="tool-dot semgrep"></span>Semgrep</button>
+          <button data-tool="bandit"><span class="tool-dot bandit"></span>Bandit</button>
+        </div>
+        <select id="status-filter" aria-label="Statut">
+          <option value="open">Ouverts</option>
+          <option value="">Tous statuts</option>
+          <option value="fixed">Corrigés</option>
+          <option value="accepted">Acceptés</option>
+          <option value="false_positive">Faux positifs</option>
+        </select>
+        <input id="search" type="search" placeholder="Rechercher règle, fichier, CWE, message…" aria-label="Recherche">
+      </div>
+
+      <div class="matrix-wrap">
+        <table class="matrix" id="matrix" aria-label="Matrice sévérité × outil"></table>
+        <p class="hint">Cliquez une cellule pour filtrer. Recliquez pour retirer le filtre.</p>
+      </div>
+
+      <div class="table-head">
+        <h2 id="findings-count">Findings</h2>
+        <button id="clear-filters" class="link" hidden>Réinitialiser les filtres</button>
+      </div>
+      <div class="table-scroll">
+        <table class="grid" id="findings-table">
+          <thead>
+            <tr>
+              <th data-sort="severity">Sévérité</th>
+              <th data-sort="tool">Outil</th>
+              <th data-sort="rule">Règle</th>
+              <th data-sort="cwe">CWE</th>
+              <th data-sort="location">Emplacement</th>
+              <th data-sort="status">Statut</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================= COMPARE ======================= -->
+    <section id="view-compare" class="view" hidden>
+      <div class="legend" id="compare-summary"></div>
+      <p class="hint" id="compare-hint"></p>
+      <div class="table-scroll">
+        <table class="grid compare" id="compare-table">
+          <thead>
+            <tr>
+              <th>Emplacement</th>
+              <th><span class="tool-dot semgrep"></span>Semgrep</th>
+              <th><span class="tool-dot bandit"></span>Bandit</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

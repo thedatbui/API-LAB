@@ -2,11 +2,13 @@ import { Router } from "express";
 import { ingestScan } from "../services/IngestService.js";
 import type { Adapter, NormalizedFinding } from "../adapter/types.js";
 import { parseBandit } from "../adapter/bandit.js";
+import { parseSemgrep } from "../adapter/semgrep.js";
 import { z } from "zod";
 export const ingestRouter = Router();
 
 export const adapters: Record<string, Adapter> = {
   bandit: parseBandit,
+  semgrep: parseSemgrep,
 };
 
 ingestRouter.post("/:tool", (req, res) => {
@@ -17,8 +19,11 @@ ingestRouter.post("/:tool", (req, res) => {
   }).safeParse({ repo: req.header("x-repo"), commit: req.header("x-commit") });
   if (!tool.success || !meta.success) return res.status(400).json({ error: "invalid request" });
 
-  let findings;
-  try { findings = adapters[tool.data](req.body); }
+  const adapter = adapters[tool.data];
+  if (!adapter) return res.status(400).json({ error: "unsupported tool" });
+
+  let findings: NormalizedFinding[];
+  try { findings = adapter(req.body); }
   catch { return res.status(400).json({ error: "invalid report format" }); }
   const result = ingestScan({ tool: tool.data, ...meta.data, raw: JSON.stringify(req.body) }, findings);
   res.status(result.duplicate ? 200 : 201).json(result);

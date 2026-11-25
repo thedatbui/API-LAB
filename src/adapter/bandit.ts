@@ -25,6 +25,6 @@ export const parseBandit: Adapter = (raw) => {
     severity: r.issue_severity.toLowerCase() as "low" | "medium" | "high",
     file: r.filename,
     line: r.line_number,
-    cwe: r.issue_cwe ? `CWE-${r.issue_cwe.id}` : undefined,
+    ...(r.issue_cwe ? { cwe: `CWE-${r.issue_cwe.id}` } : {}),
   }));
 };

@@ -3,7 +3,8 @@ export function listControls() {
     return db.prepare("SELECT * FROM controls").all();
 }
 export function upsertControl(control) {
-    console.log("Upserting control:", control);
+    const controlWithDefaults = { ...control, ref: control.ref ?? null };
+    console.log("Upserting control:", controlWithDefaults);
     db.prepare(`
         INSERT INTO controls (key, framework, ref, name, description)
         VALUES (@key, @framework, @ref, @name, @description)
@@ -12,6 +13,6 @@ export function upsertControl(control) {
         ref = excluded.ref,
         name = excluded.name,
         description = excluded.description
-    `).run(control);
+    `).run(controlWithDefaults);
 }
 //# sourceMappingURL=controlService.js.map

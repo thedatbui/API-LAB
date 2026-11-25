@@ -3,7 +3,6 @@ export function listRisksFromAsset(assetId) {
     return db.prepare("SELECT * FROM risks WHERE assetId = ?").all(assetId);
 }
 export function upsertRisk(risk) {
-    console.log("Upserting risk:", risk);
     db.prepare(`
         INSERT INTO risks (key, name, description, stride, likelihood, impact, status, assetId)
         VALUES (@key, @name, @description, @stride, @likelihood, @impact, @status, @assetId)

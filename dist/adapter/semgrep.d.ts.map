@@ -1,1 +1,1 @@
-{"version":3,"file":"semgrep.d.ts","sourceRoot":"","sources":["../../src/adapter/semgrep.ts"],"names":[],"mappings":""}
+{"version":3,"file":"semgrep.d.ts","sourceRoot":"","sources":["../../src/adapter/semgrep.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,OAAO,EAAqB,MAAM,YAAY,CAAC;AAsC7D,eAAO,MAAM,YAAY,EAAE,OAe1B,CAAC"}

@@ -9,11 +9,19 @@ import { risksRouter } from "./routes/risks.js";
 import { errorHandler } from "./middleware/errors.js";
 import pinoHttp from "pino-http";
 import rateLimit from "express-rate-limit";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+// public/ est à la racine du projet (fonctionne depuis src/ avec tsx et depuis dist/ après build)
+const publicDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "public");
 
 export function createApp() {
   const app = express();
   app.use(helmet());
   app.use(pinoHttp());
+
+  app.use("/dashboard", express.static(publicDir));
+  app.get("/", (_req, res) => res.redirect("/dashboard/"));
 
   app.use("/ingest", express.json({ limit: "5mb" }), ingestRouter); 
   app.use(express.json({ limit: "10kb" }));

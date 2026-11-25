@@ -7,7 +7,7 @@ export declare const controlInput: z.ZodObject<{
         "NIST-800-53": "NIST-800-53";
         "NIST-CSF": "NIST-CSF";
     }>;
-    ref: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    ref: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
     name: z.ZodString;
     description: z.ZodString;
 }, z.core.$strict>;
